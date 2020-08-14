@@ -14,7 +14,7 @@
  [ 7, 8, 9 ]
 ]
 输出: [1,2,3,6,9,8,7,4,5]
-solution 1
+#solution 1
 class Solution {
 public:
     vector<int> spiralOrder(vector<vector<int>>& matrix) {
@@ -49,10 +49,12 @@ public:
     }
 };
 
-solution 2:
-class Solution {
+#solution 2:
+class Solution 
+{
 public:
-    vector<int> spiralOrder(vector<vector<int>>& matrix) {
+    vector<int> spiralOrder(vector<vector<int>>& matrix) 
+ {
         vector <int> ans;
         if(matrix.empty()) return ans; //若数组为空，直接返回答案
         int u = 0; //赋值上下左右边界
