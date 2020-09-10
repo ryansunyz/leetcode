@@ -1,56 +1,6 @@
 #include <stdio.h>
 
-void quickSort(int arr[], int low, int high)
-{
 
-
-    int first = low;
-    int last  = high;
-    int key = arr[first];
-    if(low >= high)
-        return;
-    while(first < last)
-    {
-        while(first < last && arr[last] < key)
-        {
-            last--;
-        }
-        arr[first] = arr[last];
-        while(first < last && arr[first] > key)
-        {
-            first++;
-        }
-        arr[last] = arr[first];
-    }
-    arr[first] = key;
-
-    quickSort(arr, low, first-1);
-    quickSort(arr, first+1, high);
-}
-
-// int Division(double list[], int left, int right, int mindexArr[])
-// {
-//     double baseNum = list[left];
-//     int baseIndex = mindexArr[left];
-//     while(left < right)
-//     {
-//         while(left < right && list[right] <= baseNum)
-//         {
-//             right = right -1;
-//         }
-//         list[left] = list[right];
-//         mindexArr[left] = mindexArr[right];
-//         while(left < right && list[left] >= baseNum)
-//         {
-//             left = left +1;
-//         }
-//         list[right] = list[left];
-//         mindexArr[right] = mindexArr[left];
-//     }
-//     list[left] = baseNum;
-//     mindexArr[left] = baseIndex;
-//     return left;
-// }
 
 int Division(double list[], int left, int right, int mindexArr[])
 {
