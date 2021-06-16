@@ -1,6 +1,6 @@
 # 动态规划问题
 -------
-# 背包问题
+## 背包问题解题思路
 常见的背包类型主要有以下几种：
 - 1、0/1背包问题：每个元素最多选取一次
 - 2、完全背包问题：每个元素可以重复选择
@@ -18,13 +18,15 @@
 - 2、存在问题(bool)：dp[i]=dp[i]||dp[i-num];
 - 3、组合问题：dp[i]+=dp[i-num];
 
-[322] 零钱兑换
-# 完全背包最值问题：外循环coins,内循环amount正序,应用状态方程1
+** [322] 零钱兑换
+## 完全背包最值问题：外循环coins,内循环amount正序,应用状态方程1
 ```
 int coinChange(vector<int> &coins, int amount)
 {
-    vector<long long> dp(amount + 1, INT_MAX); //给dp数组每个位置赋初值为INT_MAX是为了最后判断是否能填满amount,要用long long 类型
-    dp[0] = 0;  //dp[i]:换到面值i所用的最小数量
+    //给dp数组每个位置赋初值为INT_MAX是为了最后判断是否能填满amount,要用long long 类型
+    vector<long long> dp(amount + 1, INT_MAX); 
+    //dp[i]:换到面值i所用的最小数量
+    dp[0] = 0;  
     for (int coin : coins)
     {
         for (int i = 0; i <= amount; i++)
@@ -35,4 +37,28 @@ int coinChange(vector<int> &coins, int amount)
     }
     return dp[amount] == INT_MAX ? -1 : dp[amount];
 }
+```
+
+** [416] 分割等和子集
+判断是否能将一个数组分割为两个子集,其和相等
+## 0-1背包存在性问题：是否存在一个子集,其和为target=sum/2,外循环nums,内循环target倒序,应用状态方程2 
+
+```
+bool canPartition(vector<int> &nums)
+{
+    int sum = accumulate(nums.begin(), nums.end(), 0);
+    //如果是和为奇数显然无法分成两个等和子集
+    if (sum % 2 == 1)  
+        return false;
+    int target = sum / 2;
+    //dp[i]:是否存在子集和为i 
+    vector<int> dp(target + 1, 0); 
+    //初始化：target=0不需要选择任何元素，所以是可以实现的
+    dp[0] = true;   
+    for (int num : nums)
+        for (int i = target; i >= num; i--)
+            dp[i] = dp[i] || dp[i - num];
+    return dp[target];
+}
+
 ```
