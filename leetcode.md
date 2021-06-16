@@ -1,4 +1,11 @@
-# 动态规划问题
+# 6,搜索问题
+-------
+## 解题思路
+深度优先搜索和广度优先搜索
+深度优先搜索DFS，在搜索到一个新的节点时立即对该新节点进行遍历，因此遍历需要先入后出的栈实现
+广度优先搜索BFS，一层层进行遍历，因此需要用先入先出的队列实现，常用来处理最短路径等问题
+
+# 7,动态规划问题
 -------
 ## 背包问题解题思路
 常见的背包类型主要有以下几种：
@@ -18,7 +25,7 @@
 - 2、存在问题(bool)：dp[i]=dp[i]||dp[i-num];
 - 3、组合问题：dp[i]+=dp[i-num];
 
-** [322] 零钱兑换
+[322] 零钱兑换
 ## 完全背包最值问题：外循环coins,内循环amount正序,应用状态方程1
 ```
 int coinChange(vector<int> &coins, int amount)
@@ -39,7 +46,7 @@ int coinChange(vector<int> &coins, int amount)
 }
 ```
 
-** [416] 分割等和子集
+**[416] 分割等和子集
 判断是否能将一个数组分割为两个子集,其和相等
 ## 0-1背包存在性问题：是否存在一个子集,其和为target=sum/2,外循环nums,内循环target倒序,应用状态方程2 
 
@@ -61,4 +68,75 @@ bool canPartition(vector<int> &nums)
     return dp[target];
 }
 
+```
+
+[279] 完全平方数
+对于一个正整数n,找出若干个完全平方数使其和为n,返回完全平方数最少数量
+## 完全背包的最值问题：完全平方数最小为1,最大为sqrt(n),故题目转换为在nums=[1,2.....sqrt(n)]中选任意数平方和为target=n 外循环nums,内循环target正序,应用转移方程1
+```
+int numSquares(int n)
+{
+    vector<int> dp(n + 1, INT_MAX); //dp[i]:和为i的完全平方数的最小数量
+    dp[0] = 0;
+    for (int num = 1; num <= sqrt(n); num++)
+    {
+        for (int i = 0; i <= n; i++)
+        {
+            if (i >= num * num)
+                dp[i] = min(dp[i], dp[i - num * num] + 1);
+        }
+    }
+    return dp[n];
+}
+```
+
+# 10,位运算
+## 解题思路
+-  ^ 按位异或  
+- & 按位与 
+- | 按位或
+- ~ 取反
+- << 左移
+- >> 右移
+性质 
+x ^ 0s = x 
+x & 0s = 0 
+x | 0s = x 
+x ^ 1s = ~x 
+x & 1s = x 
+x | 1s = 1s 
+x^x=0 
+x^0=x
+x&x=x 
+x|x=x
+[461] Hamming Distance
+给定两个十进制数字，求它们二进制表示的汉明距离(Hamming distance，即不同位的个数)
+1=0001 4=0100,一共有两位不同
+对两个数按位异或操作，统计有多少个1即可
+```
+//记 s=x⊕y，我们可以不断地检查s的最低位，如果最低位为 1，那么令计数器加一，然后我们令 s 整体右移一位，这样 s 的最低位将被舍去，原本的次低位就变成了新的最低位。我们重复这个过程直到 s=0 为止。这样计数器中就累计了 s 的二进制表示中 1 的数量。
+int hammingDistance(int x, int y) 
+{
+    int s = x^y;
+    int ans = 0;
+    while(s)
+    {
+        ans += s&1;
+        s >>= 1;
+    }
+    return ans;
+}
+```
+[136] single number
+给定一个整数数组，这个数组里只有一个数次出现了一次，其余数字出现了两次，求这个只 出现一次的数字
+```
+int singleNumber(vector<int>& nums) 
+{
+    int ans = 0;
+    for (const int & num: nums) 
+    { 
+        ans ^= num;
+    }
+    return ans; 
+}
 ```
