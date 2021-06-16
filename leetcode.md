@@ -20,7 +20,7 @@
 
 [322] 零钱兑换
 # 完全背包最值问题：外循环coins,内循环amount正序,应用状态方程1
-'''
+```
 int coinChange(vector<int> &coins, int amount)
 {
     vector<long long> dp(amount + 1, INT_MAX); //给dp数组每个位置赋初值为INT_MAX是为了最后判断是否能填满amount,要用long long 类型
@@ -35,4 +35,4 @@ int coinChange(vector<int> &coins, int amount)
     }
     return dp[amount] == INT_MAX ? -1 : dp[amount];
 }
-'''
+```
