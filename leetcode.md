@@ -145,35 +145,100 @@ int sqrt(int x)
 ```
 [34]有序数组中查找元素第一次出现和最后一次出现的位置
 ```
-int binarySearch(vector<int> &nums, int target, bool lower)
+// 主函数
+vector<int> searchRange(vector<int>& nums, int target) 
 {
-    int left = 0, right = nums.size()-1, ans=nums.size();
-    while(left <= right)
+    if (nums.empty()) 
+        return vector<int>{-1, -1};
+    int lower = lower_bound(nums, target);
+    int upper = upper_bound(nums, target) - 1; // 这里需要减1位 
+    if (lower == nums.size() || nums[lower] != target) 
     {
-        int mid = (left+right)/2;
-        if(nums[mid] > target || (lower&&nums[mid] >= target))
-        {
-            right = mid-1;
-            ans = mid;
-        }
-        else
-            left = mid+1;
+        return vector<int>{-1, -1}; 
     }
-    return ans;
+    return vector<int>{lower, upper};
 }
-vector<int> searchRange(vector<int> &nums, int target)
+// 辅函数
+int lower_bound(vector<int> &nums, int target) 
 {
-    int leftIdx = binarySearch(nums, target, true);
-    int rightIdx = binarySearch(nums, target, false)-1;
-    if(leftIdx <= rightIdx && rightIdx < nums.size() && nums[leftIdx] == target && nums[rightIdx] == target)
+    int l = 0, r = nums.size(), mid; 
+    while (l < r) 
     {
-        return vector<int>{leftIdx, rightIdx};
+        mid = (l + r) / 2;
+        if (nums[mid] >= target) 
+        {
+            r = mid;
+        } 
+        else 
+        {
+            l = mid + 1; 
+        }
     }
-    return vector<int>{-1,-1};
+    return l; 
+}
+// 辅函数
+int upper_bound(vector<int> &nums, int target) 
+{
+    int l = 0, r = nums.size(), mid; 
+    while (l < r) 
+    {
+       mid = (l + r) / 2;
+       if (nums[mid] > target) 
+       {
+           r = mid;
+       } 
+       else 
+       {
+            l = mid + 1; 
+        }
+    }
+    return l;
 }
 ```
-
-
+[81]旋转数组查找数字
+一个原本增序的数组被首尾相连后按某个位置断开(如 [1,2,2,3,4,5] → [2,3,4,5,1,2]，在第一 位和第二位断开)，我们称其为旋转数组。给定一个值，判断这个值是否存在于这个为旋转数组 中。
+### 解题思路
+即使数组被旋转过，我们仍然可以利用这个数组的递增性，使用二分查找。
+对于当前的中点， 如果它指向的值小于等于右端，那么说明右区间是排好序的;反之，那么说明左区间是排好序的。 
+如果目标值位于排好序的区间内，我们可以对这个区间继续二分查找;反之，我们对于另一半区 间继续二分查找。
+注意，因为数组存在重复数字，如果中点和左端的数字相同，我们并不能确定是左区间全部 相同，还是右区间完全相同。在这种情况下，我们可以简单地将左端点右移一位，然后继续进行 二分查找。
+```
+bool search(vector<int> &nums, int target)
+{
+    int start = 0, end=nums.size()-1;
+    while(start <= end)
+    {
+        int mid = (start+end)/2;
+        if(nums[mid] == target)
+            return true;
+        if(nums[start] == nums[mid])
+            ++start;
+        else if(nums[mid] <= nums[end])
+        {
+            if(target > nums[mid] && target <= nums[end])
+                start = mid+1;
+            else
+                end = mid-1;
+        }
+        else
+        {
+            if(target >= nums[start] && target < nums[mid])
+                end = mid-1;
+            else
+                start = mid+1;
+        }
+    }
+    return false;
+}
+```
+---
+# 5,排序
+---
+*** 排序
+- 快速排序
+- 桶排序
+- 插入排序
+- 归并排序
 
 ---
 # 6,搜索问题
