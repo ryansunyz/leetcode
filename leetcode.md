@@ -1,20 +1,193 @@
+---
 # 3,双指针
-## 解题思路
+---
+### 解题思路
 主要用于遍历数组，两个指针指向不同的元素，从而协同完成任务。
 应用：
 滑动窗口：两个指针指向同一个数组，遍历方向相同且不会相交，常用于区间搜索
 搜索：两个指针指向同一个数组，但是遍历方向相反，常用于搜索排好序的数组
+---
+[167] Two sum 2,input array is sorted
+### 已经排好序，相反方向的双指针搜索
+```
+vector<int> twosum(vector<int> &numbers, int target)
+{
+    int l = 0, r = numbers.size()-1;
+    while(l < r)
+    {
+        if(numbers[l]+numbers[r] == target)
+            break;
+        else if(numbers[l]+numbers[r] > target)
+            r--;
+        else
+            l++;
+    }
+    return vector<int>{l+1, r+1};
+}
+```
 
+[88] 归并两个有序数组
+给定两个有序数组，把两个数组合并为一个
+### 解题思路
+指针移动单调递减，最多移动m+n次
+```
+void merge(vector<int> &nums1, int m, vector<int> &nums2, int n)
+{
+    int p1 = m-1, p2 = n-1;
+    int tail = m+n-1;
+    int cur;
+    while(p1 >= 0 || p2 >= 0)
+    {
+        if(p1 == -1)
+            cur = nums2[p2--];
+        else if(p2 == -1)
+            cur = nums1[p1--];
+        else if(nums1[p1] > nums2[p2])
+            cur = nums1[p1--];
+        else
+            cur = nums2[p2--];
+        nums1[tail--] = cur;
+    }
+}
+```
+[142] 快慢指针
+给定一个链表，如果有环路，找出环路的开始点
+### 解题思路
+快指针移动两步，慢指针移动一步，如果相遇用第三个指针与慢指针相遇即是环入口
+```
+struct ListNode{
+    int val;
+    ListNode* next;
+    ListNode(int x):val(x), next(NULL) {}
+    };
+```
+```
+ListNode* detectCycle(ListNode *head)
+{
+    ListNode* slow = head;
+    ListNode* fast = head;
+    while(fast!=NULL)
+    {
+        slow = slow->next;
+        if(fast->next == NULL)
+            return NULL;
+        fast = fast->next->next;
+        if(slow == fast)
+        {
+            ListNode* ptr = head;
+            while(ptr != slow)
+            {
+                ptr = ptr->next;
+                slow = slow->next;
+            }
+            return ptr;
+        }
+    }
+    return NULL;
+}
+```
+[76] Minimum Window Substring
+给定两个字符串 S 和 T ，求 S 中包含 T 所有字符的最短连续子字符串的长度，同时要求时间 复杂度不得超过 O(n)
+### 解题思路
+滑动窗口
+两个指针从最左端向最右端移动，且l的位置一定在r的左边或重合
+**暂时搁置，后续再解
+
+[633] Sum of square numbers
+给定一个非负整数c，判断是否存在两个整数a和b，使得a*a+b*b=c
+```
+bool judgeSquareSum(int c) 
+{
+    long l = 0, r = int(sqrt(c));
+    while(l <= r)
+    {
+        long sum = l*l+r*r;
+        if(sum == c)
+            return true;
+        else if(sum < c)
+            l++;
+        else
+            r--;
+    }
+    return false;
+}
+
+```
+
+---
+# 4,二分查找
+---
+### 解题思路
+二分查找的左右端区间开区间还是闭区间绝大多数都可以
+技巧：
+（1）尝试保持一种写法左闭右开、左闭右闭
+（2）最后区间只剩下一个数或者两个数写法是否会陷入死循环，然后考虑另一种写法
+[69] 求开方
+给定一个非负整数，求它的开方，向下取整
+```
+int sqrt(int x)
+{
+    int l = 1, r = x, ans = -1;
+    while(l <= r)
+    {
+        int mid = l + (r-l)/2;
+        ans = x/mid;
+        if(ans == mid)
+            return mid;
+        else if(mid > ans)
+            r=mid-1;
+        else
+            l=mid+1;
+
+    }
+    return r;
+}
+```
+[34]有序数组中查找元素第一次出现和最后一次出现的位置
+```
+int binarySearch(vector<int> &nums, int target, bool lower)
+{
+    int left = 0, right = nums.size()-1, ans=nums.size();
+    while(left <= right)
+    {
+        int mid = (left+right)/2;
+        if(nums[mid] > target || (lower&&nums[mid] >= target))
+        {
+            right = mid-1;
+            ans = mid;
+        }
+        else
+            left = mid+1;
+    }
+    return ans;
+}
+vector<int> searchRange(vector<int> &nums, int target)
+{
+    int leftIdx = binarySearch(nums, target, true);
+    int rightIdx = binarySearch(nums, target, false)-1;
+    if(leftIdx <= rightIdx && rightIdx < nums.size() && nums[leftIdx] == target && nums[rightIdx] == target)
+    {
+        return vector<int>{leftIdx, rightIdx};
+    }
+    return vector<int>{-1,-1};
+}
+```
+
+
+
+---
 # 6,搜索问题
--------
-## 解题思路
+---
+
+### 解题思路
 深度优先搜索和广度优先搜索
 深度优先搜索DFS，在搜索到一个新的节点时立即对该新节点进行遍历，因此遍历需要先入后出的栈实现
 广度优先搜索BFS，一层层进行遍历，因此需要用先入先出的队列实现，常用来处理最短路径等问题
 
+---
 # 7,动态规划问题
--------
-## 背包问题解题思路
+---
+### 背包问题解题思路
 常见的背包类型主要有以下几种：
 - 1、0/1背包问题：每个元素最多选取一次
 - 2、完全背包问题：每个元素可以重复选择
@@ -33,7 +206,7 @@
 - 3、组合问题：dp[i]+=dp[i-num];
 
 [322] 零钱兑换
-## 完全背包最值问题：外循环coins,内循环amount正序,应用状态方程1
+### 完全背包最值问题：外循环coins,内循环amount正序,应用状态方程1
 ```
 int coinChange(vector<int> &coins, int amount)
 {
@@ -55,7 +228,7 @@ int coinChange(vector<int> &coins, int amount)
 
 **[416] 分割等和子集
 判断是否能将一个数组分割为两个子集,其和相等
-## 0-1背包存在性问题：是否存在一个子集,其和为target=sum/2,外循环nums,内循环target倒序,应用状态方程2 
+### 0-1背包存在性问题：是否存在一个子集,其和为target=sum/2,外循环nums,内循环target倒序,应用状态方程2 
 
 ```
 bool canPartition(vector<int> &nums)
@@ -79,7 +252,7 @@ bool canPartition(vector<int> &nums)
 
 [279] 完全平方数
 对于一个正整数n,找出若干个完全平方数使其和为n,返回完全平方数最少数量
-## 完全背包的最值问题：完全平方数最小为1,最大为sqrt(n),故题目转换为在nums=[1,2.....sqrt(n)]中选任意数平方和为target=n 外循环nums,内循环target正序,应用转移方程1
+### 完全背包的最值问题：完全平方数最小为1,最大为sqrt(n),故题目转换为在nums=[1,2.....sqrt(n)]中选任意数平方和为target=n 外循环nums,内循环target正序,应用转移方程1
 ```
 int numSquares(int n)
 {
@@ -98,7 +271,7 @@ int numSquares(int n)
 ```
 
 # 10,位运算
-## 解题思路
+### 解题思路
 -  ^ 按位异或  
 - & 按位与 
 - | 按位或
