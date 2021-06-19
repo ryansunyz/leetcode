@@ -1,4 +1,9 @@
 ---
+未完全搞懂的算法
+【221】
+
+---
+---
 # 3,双指针
 ---
 ### 解题思路
@@ -340,6 +345,36 @@ int numSquares(int n)
 ---
 ### 解题思路
 通过把原问题分为子问题，再将子问题进行处理合并，从而实现对原问题的求解。
+
+```
+vector<int> diffWaysToCompute(string expression) 
+{  
+    vector<int> res;      
+    for(int i = 0; i < expression.size(); i++)
+    {
+        if(expression[i] == '*' || expression[i] == '+' || expression[i] == '-')
+        {
+            vector<int> left = diffWaysToCompute(expression.substr(0, i));
+            vector<int> right = diffWaysToCompute(expression.substr(i+1));
+            for(const int &l:left)
+                for(const int &r:right)
+                    switch(expression[i])
+                    {
+                        case '+':
+                            res.push_back(l+r);
+                            break;
+                        case '-':
+                            res.push_back(l-r);
+                            break;
+                        case '*':
+                            res.push_back(l*r);
+                            break;
+                    }
+        }
+    }
+    if(res.empty()) res.push_back(stoi(expression));
+    return res;
+```
 
 ---
 # 10,位运算
