@@ -430,3 +430,30 @@ int singleNumber(vector<int>& nums)
     return ans; 
 }
 ```
+---
+# 11,字符串
+---
+### 主要题型
+字符串理解、字符串比较、字符串匹配
+[242] 判断两个字符串包含的字符是否完全相同
+Input: s = "anagram", t = "nagaram"
+Output: true
+
+```
+bool validstring(string &s, string t)
+{
+    if(s.size() != t.size())
+        return false;
+    vector<int> counter(26, 0);
+    for(int i = 0; i < s.size(); i++)
+    {
+        ++counter[s[i] - 'a'];
+        --counter[t[i] - 'a'];
+    }
+    for(int i = 0; i < s.size(); i++)
+    {
+        if(counter[i])
+            return false;
+    }
+    return true;
+}
