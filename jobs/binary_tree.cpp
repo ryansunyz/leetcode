@@ -1,4 +1,34 @@
-// zhijing
+// ************ 二叉树 ************
+
+// 前序遍历-1
+vector<int> res;
+vector<int> preorder(Treenode* root) {
+    search(root);
+    return res;
+}
+
+void search(Treenode* root) {
+    if (root == nullptr) {
+        return;
+    }
+    res.push_bach(root->value);
+    search(root->left);
+    search(root->right);
+}
+
+//
+vector<int> preorder(Treenode* root) {
+    vector<int> res;
+    
+    // while (root != nullptr) {
+    //     res.push_back(root->val);
+    //     root = root->left;
+    // }
+
+}
+
+
+// 直径
 int res = 0;
 int maxdemention(TreeNode* root) {
     travel(root);
@@ -15,7 +45,7 @@ int travel(TreeNode* root) {
     return 1+max(left, right);
 }
 
-// cengxu
+// 层序遍历
 
 void leveltraverse(TreeNode* root) {
     vector<int> res;
