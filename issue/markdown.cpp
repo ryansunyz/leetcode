@@ -9,7 +9,7 @@
 using namespace std;
 
 
-// 189 转换轮组
+// 189 转换轮组 //
 // 给定一个整数数组 nums，将数组中的元素向右轮转 k 个位置，其中 k 是非负数。
 // 输入: nums = [1,2,3,4,5,6,7], k = 3
 // 输出: [5,6,7,1,2,3,4]
@@ -40,7 +40,7 @@ void ratete(vector<int>& nums, int k) {
     revert(nums, 0, k-1);
     revert(nums, k, n-1);
 }
-// 55. 跳跃游戏
+// 55. 跳跃游戏 //
 // 给你一个非负整数数组 nums ，你最初位于数组的 第一个下标 。数组中的每个元素代表你在该位置可以跳跃的最大长度。
 // 判断你是否能够到达最后一个下标，如果可以，返回 true ；否则，返回 false 。
 bool canJump(vector<int>& nums) {
@@ -99,9 +99,11 @@ int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
 //                         双指针
 // ********************************************************
 // 26. 删除有序数组中的重复项
-// 给你一个 非严格递增排列 的数组 nums ，请你 原地 删除重复出现的元素，使每个元素只出现一次返回删除后数组的新长度。元素的相对顺序 应该保持 一致 。然后返回 nums 中唯一元素的个数。
+// 给你一个 非严格递增排列 的数组 nums ，请你 原地 删除重复出现的元素，使每个元素只出现一次返回删除后数组的新长度。
+// 元素的相对顺序 应该保持 一致 。然后返回 nums 中唯一元素的个数。
 // 考虑 nums 的唯一元素的数量为 k ，你需要做以下事情确保你的题解可以被通过：
-// 更改数组 nums ，使 nums 的前 k 个元素包含唯一元素，并按照它们最初在 nums 中出现的顺序排列。nums 的其余元素与 nums 的大小不重要。
+// 更改数组 nums ，使 nums 的前 k 个元素包含唯一元素，
+// 并按照它们最初在 nums中出现的顺序排列。nums的其余元素与nums的大小不重要。
 // 输入：nums = [1,1,2]
 // 输出：2, nums = [1,2,_]
 // 解释：函数应该返回新的长度 2 ，并且原数组 nums 的前两个元素被修改为 1, 2 。不需要考虑数组中超出新长度后面的元素。
@@ -123,8 +125,9 @@ int removeDuplicates(vector<int>& nums) {
 // 不要使用额外的数组空间，你必须在 原地 修改输入数组 并在使用 O(1) 额外空间的条件下完成。
 // 输入：nums = [1,1,1,2,2,3]
 // 输出：5, nums = [1,1,2,2,3]
-// 解释：函数应返回新长度 length = 5, 并且原数组的前五个元素被修改为 1, 1, 2, 2, 3。 不需要考虑数组中超出新长度后面的元素。
-int removeDuplicates(vector<int>& nums) {
+// 解释：函数应返回新长度 length = 5, 并且原数组的前五个元素被修改为 1, 1, 2, 2, 3。 
+// 不需要考虑数组中超出新长度后面的元素。
+int removeDuplicatesII(vector<int>& nums) {
     int n = nums.size();
     if (n <= 2) {
         return n;
@@ -141,7 +144,8 @@ int removeDuplicates(vector<int>& nums) {
     return slow;
 }
 // 15. 三数之和
-// 给你一个整数数组 nums ，判断是否存在三元组 [nums[i], nums[j], nums[k]] 满足 i != j、i != k 且 j != k ，同时还满足 nums[i] + nums[j] + nums[k] == 0 。请
+// 给你一个整数数组 nums ，判断是否存在三元组 [nums[i], nums[j], nums[k]] 满足 i != j、i != k 且 j != k ，
+// 同时还满足 nums[i] + nums[j] + nums[k] == 0 。请
 // 你返回所有和为 0 且不重复的三元组。
 // 输入：nums = [-1,0,1,2,-1,-4]
 // 输出：[[-1,-1,2],[-1,0,1]]
@@ -191,8 +195,10 @@ bool isSubsequence(string s, string t) {
     return i == m;
 }
 
-// 167. 两数之和 II - 输入有序数组
-// 给你一个下标从 1 开始的整数数组 numbers ，该数组已按 非递减顺序排列  ，请你从数组中找出满足相加之和等于目标数 target 的两个数。如果设这两个数分别是 numbers[index1] 和 numbers[index2] ，则 1 <= index1 < index2 <= numbers.length 。
+// 167. 两数之和 II - 输入有序数组 //
+// 给你一个下标从 1 开始的整数数组 numbers ，该数组已按 非递减顺序排列，
+// 请你从数组中找出满足相加之和等于目标数 target 的两个数。如果设这两个数分别是 numbers[index1]和numbers[index2]，
+// 则 1 <= index1 < index2 <= numbers.length 。
 // 输入：numbers = [2,7,11,15], target = 9
 // 输出：[1,2]
 vector<int> twoSum(vector<int>& numbers, int target) { 
@@ -262,14 +268,14 @@ vector<string> summaryRanges(vector<int>& nums) {
             if(start != end){
                 temp += "->"+to_string(nums[end]);
             }
-            res.emplace_back(temp);
+            res.push_back(temp);
             ++end;
             start = end;
         }
     }
     return res;
 }
-vector<string> summaryRanges(vector<int>& nums) {
+vector<string> summaryRangesII(vector<int>& nums) {
     vector<string> res;
     int start = 0;
     int end = 0;
@@ -281,7 +287,7 @@ vector<string> summaryRanges(vector<int>& nums) {
         if(start != end){
             temp += "->"+to_string(nums[end]);
         }
-        res.emplace_back(temp);
+        res.push_back(temp);
         ++end;
         start = end;
         
@@ -480,7 +486,7 @@ void rotate(vector<vector<int> >& matrix) {
 // 你必须设计并实现线性时间复杂度的算法且使用常数级空间来解决此问题。
 // 输入：nums = [2,2,3,2]
 // 输出：3
-int singleNumber(vector<int>& nums) {
+int singleNumberII(vector<int>& nums) {
     unordered_map<int, int> cnt;
     for (auto& num : nums) {
         ++cnt[num];
@@ -641,15 +647,15 @@ bool isAnagram(string s, string t) {
 // 输入: strs = [""]
 // 输出: [[""]]
 vector<vector<string> > groupAnagrams(vector<string>& strs) {
-    unordered_map<string, vector<string>> mp;
+    unordered_map<string, vector<string> > mp;
     for (const auto & str : strs) {
         string key = str;
         sort(key.begin(), key.end());
-        mp[key].emplace_back(str);
+        mp[key].push_back(str);
     }
-    vector<vector<string>> ans;
+    vector<vector<string> > ans;
     for (auto it = mp.begin(); it != mp.end(); ++it) {
-        ans.emplace_back(it->second);
+        ans.push_back(it->second);
     }
     return ans;
 }
@@ -692,7 +698,8 @@ bool isHappy(int n) {
 }
 
 // 219. 存在重复元素 II
-// 给你一个整数数组 nums 和一个整数 k ，判断数组中是否存在两个 不同的索引 i 和 j ，满足 nums[i] == nums[j] 且 abs(i - j) <= k 。如果存在，返回 true ；否则，返回 false 
+// 给你一个整数数组 nums 和一个整数 k ，判断数组中是否存在两个不同的索引i和j，
+// 满足 nums[i] == nums[j] 且 abs(i - j) <= k 。如果存在，返回 true ；否则，返回 false 
 // 输入：nums = [1,0,1,1], k = 1
 // 输出：true
 // 输入：nums = [1,2,3,1,2,3], k = 2
@@ -1012,7 +1019,7 @@ ListNode* addTwoNumbers_2(ListNode* l1, ListNode* l2) {
     // }
     // return l3->next;
 }
-// 21. 合并两个有序链表
+// 21. 合并两个有序链表 //
 // 将两个升序链表合并为一个新的 升序 链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。 
 // 输入：l1 = [1,2,4], l2 = [1,3,4]
 // 输出：[1,1,2,3,4,4]
@@ -1101,7 +1108,6 @@ ListNode* reverseN(ListNode* head, int n) {
     }
     // 以 head.next 为起点，需要反转前 n - 1 个节点
     ListNode* last = reverseN(head->next, n - 1);
-
     head->next->next = head;
     // 让反转之后的 head 节点和后面的节点连起来
     head->next = successor;
@@ -1358,9 +1364,9 @@ TreeNode* invertTree(TreeNode* root) {
         if (!p || !q) return false;
         return p->val == q->val && check(p->left, q->right) && check(p->right, q->left);
     }
-bool isSymmetric(TreeNode* root) {
-    return isSymmetric(root, root);
-}
+// bool isSymmetric(TreeNode* root) {
+//     return isSymmetric(root, root);
+// }
 // 105. 从前序与中序遍历序列构造二叉树
 // 给定两个整数数组 preorder 和 inorder ，其中 preorder 是二叉树的先序遍历， inorder 是同一棵树的中序遍历，请构造二叉树并返回其根节点。
 TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
@@ -1370,7 +1376,7 @@ TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
 // 给定一个非空二叉树的根节点 root , 以数组的形式返回每一层节点的平均值。与实际答案相差 10-5 以内的答案可以被接受。
 // 解题思路 二叉树广度优先搜索 
 vector<double> averageOfLevels(TreeNode* root) {
-    if (root == nullptr) return {};
+    // if (root == nullptr) return {};
     vector<double> ans;
     queue<TreeNode*> que;
     que.push(root);
@@ -1395,7 +1401,7 @@ vector<double> averageOfLevels(TreeNode* root) {
 // 199. 二叉树的右视图
 // 给定一个二叉树的 根节点 root，想象自己站在它的右侧，按照从顶部到底部的顺序，返回从右侧所能看到的节点值。
 vector<int> rightSideView(TreeNode* root) {
-    if (root == nullptr) return {};
+    // if (root == nullptr) return {};
     vector<int> ans;
     queue<TreeNode*> que;
     que.push(root);
@@ -1415,12 +1421,12 @@ vector<int> rightSideView(TreeNode* root) {
     }
     return ans;
 }
-// 102. 二叉树的层序遍历
+// 102. 二叉树的层序遍历 //
 // 给你二叉树的根节点 root ，返回其节点值的 层序遍历 。 （即逐层地，从左到右访问所有节点）。
-vector<vector<int>> levelOrder(TreeNode* root) {
-    if (!root) return {};
+vector<vector<int> > levelOrder(TreeNode* root) {
+    // if (!root) return {};
     queue<TreeNode*> que;
-    vector<vector<int>> ans;
+    vector<vector<int> > ans;
     que.push(root);
     while (!que.empty()) {
         int size = que.size();
@@ -1442,11 +1448,11 @@ vector<vector<int>> levelOrder(TreeNode* root) {
 }
 // 103. 二叉树的锯齿形层序遍历
 // 给你二叉树的根节点 root ，返回其节点值的 锯齿形层序遍历 。（即先从左往右，再从右往左进行下一层遍历，以此类推，层与层之间交替进行）。
-vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
-    if (!root) return {};
+vector<vector<int> > zigzagLevelOrder(TreeNode* root) {
+    // if (!root) return {};
     queue<TreeNode*> que;
     que.push(root);
-    vector<vector<int>> ans;
+    vector<vector<int> > ans;
     int cnt = 0;
     while (!que.empty()) {
         cnt++;
