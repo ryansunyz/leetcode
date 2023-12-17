@@ -40,7 +40,7 @@ void ratete(vector<int>& nums, int k) {
     revert(nums, 0, k-1);
     revert(nums, k, n-1);
 }
-// 55. 跳跃游戏 //
+//* 55. 跳跃游戏
 // 给你一个非负整数数组 nums ，你最初位于数组的 第一个下标 。数组中的每个元素代表你在该位置可以跳跃的最大长度。
 // 判断你是否能够到达最后一个下标，如果可以，返回 true ；否则，返回 false 。
 bool canJump(vector<int>& nums) {
@@ -55,7 +55,7 @@ bool canJump(vector<int>& nums) {
     }
     return false;
 }
-// 45 跳跃
+//*** 45 跳跃
 // 给定一个长度为 n 的 0 索引整数数组 nums。初始位置为 nums[0]。
 // 每个元素 nums[i] 表示从索引 i 向前跳转的最大长度。换句话说，如果你在 nums[i] 处，你可以跳转到任意 nums[i + j] 处:
 // 返回到达 nums[n - 1] 的最小跳跃次数。生成的测试用例可以到达 nums[n - 1]。
@@ -74,12 +74,31 @@ int jump(vector<int>& nums) {
 }
 // 134 加油站 ***
 // 在一条环路上有 n 个加油站，其中第 i 个加油站有汽油 gas[i] 升。
-// 你有一辆油箱容量无限的的汽车，从第 i 个加油站开往第 i+1 个加油站需要消耗汽油 cost[i] 升。你从其中的一个加油站出发，开始时油箱为空。
-// 给定两个整数数组 gas 和 cost ，如果你可以按顺序绕环路行驶一周，则返回出发时加油站的编号，否则返回 -1 。如果存在解，则 保证 它是 唯一 的。
+// 你有一辆油箱容量无限的的汽车，从第 i 个加油站开往第 i+1 个加油站需要消耗汽油 cost[i] 升。
+// 你从其中的一个加油站出发，开始时油箱为空。给定两个整数数组 gas 和 cost ，
+// 如果你可以按顺序绕环路行驶一周，则返回出发时加油站的编号，否则返回 -1 。如果存在解，则 保证 它是 唯一 的。
 // 示例 1:
 // 输入: gas = [1,2,3,4,5], cost = [3,4,5,1,2]
 // 输出: 3
-
+// 解法一：
+// 贪心算法 思路：如果总油量减去总消耗大于等于0，那么一定可以跑完一圈，说明各个站点的
+// 加油站剩余油量rest[i]相加一定大于等于0 rest = gas - cost
+// 从0开始累加rest，和记为cursum,一旦cursum小于0，说明【0，i】区间都不能作为起始位置，重新从i+1算起
+int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
+    int curSum = 0;
+    int totalSum = 0;
+    int start = 0;
+    for (int i = 0; i < gas.size(); ++i) {
+        curSum += gas[i] - cost[i];
+        totalSum += gas[i] - cost[i];
+        if (curSum < 0) {
+            start = i+1;
+            curSum = 0;
+        }
+    }
+    if (totalSum < 0) return -1;
+    return start;
+}
 int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
     int n = gas.size();
     for (int i = 0; i < n; i++) {
@@ -98,7 +117,47 @@ int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
 // ********************************************************
 //                         双指针
 // ********************************************************
-// 26. 删除有序数组中的重复项
+//** 11. 盛最多水的容器
+// 给定一个长度为 n 的整数数组 height 。有 n 条垂线，第 i 条线的两个端点是 (i, 0) 和 (i, height[i]) 。
+// 找出其中的两条线，使得它们与 x 轴共同构成的容器可以容纳最多的水。
+// 返回容器可以储存的最大水量。
+// 输入：[1,8,6,2,5,4,8,3,7]
+// 输出：49 
+int maxArea(vector<int>& height) {
+    int left = 0;
+    int right = height.size()-1;
+    int res = 0;
+    while (left < right) {
+        if (height[left] < height[right]) {
+            res = max(res, height[left]*(right-left));
+            left++;
+        } else {
+            res = max(res, height[right]*(right-left));
+            right--;
+        }
+    }
+    return res;
+}
+//**** 42. 接雨水
+// 给定 n 个非负整数表示每个宽度为 1 的柱子的高度图，计算按此排列的柱子，下雨之后能接多少雨水。
+int trap(vector<int>& height) {
+    int ans = 0;
+    int left = 0, right = height.size() - 1;
+    int leftmax = 0, rightmax = 0;
+    while (left < right) {
+        leftmax = max(leftmax, height[left]);
+        rightmax = max(rightmax, height[right]);
+        if (height[left] < height[right]) {
+            ans += leftmax - height[left];
+            ++left;
+        } else {
+            ans += rightmax - height[right];
+            --right;
+        }
+    }
+    return ans;
+}
+//* 26. 删除有序数组中的重复项
 // 给你一个 非严格递增排列 的数组 nums ，请你 原地 删除重复出现的元素，使每个元素只出现一次返回删除后数组的新长度。
 // 元素的相对顺序 应该保持 一致 。然后返回 nums 中唯一元素的个数。
 // 考虑 nums 的唯一元素的数量为 k ，你需要做以下事情确保你的题解可以被通过：
@@ -120,7 +179,7 @@ int removeDuplicates(vector<int>& nums) {
     }
     return slow;
 }
-// 80. 删除有序数组中的重复项 II
+//* 80. 删除有序数组中的重复项 II
 // 给你一个有序数组 nums ，请你 原地 删除重复出现的元素，使得出现次数超过两次的元素只出现两次 ，返回删除后数组的新长度。
 // 不要使用额外的数组空间，你必须在 原地 修改输入数组 并在使用 O(1) 额外空间的条件下完成。
 // 输入：nums = [1,1,1,2,2,3]
@@ -176,7 +235,7 @@ vector<vector<int> > threeSum(vector<int>& nums) {
     }
     return res;
 }
-// 392 判断子序列
+//* 392 判断子序列
 // 给定字符串 s 和 t ，判断 s 是否为 t 的子序列。
 // 字符串的一个子序列是原始字符串删除一些（也可以不删除）字符而不改变剩余字符相对位置形成的新字符串。
 // 输入：s = "abc", t = "ahbgdc"
@@ -195,7 +254,7 @@ bool isSubsequence(string s, string t) {
     return i == m;
 }
 
-// 167. 两数之和 II - 输入有序数组 //
+//* 167. 两数之和 II - 输入有序数组 //
 // 给你一个下标从 1 开始的整数数组 numbers ，该数组已按 非递减顺序排列，
 // 请你从数组中找出满足相加之和等于目标数 target 的两个数。如果设这两个数分别是 numbers[index1]和numbers[index2]，
 // 则 1 <= index1 < index2 <= numbers.length 。
@@ -216,25 +275,6 @@ vector<int> twoSum(vector<int>& numbers, int target) {
     return {-1, -1};
 }
 
-// 11. 盛最多水的容器
-// 给定一个长度为 n 的整数数组 height 。有 n 条垂线，第 i 条线的两个端点是 (i, 0) 和 (i, height[i]) 。
-// 找出其中的两条线，使得它们与 x 轴共同构成的容器可以容纳最多的水。
-// 返回容器可以储存的最大水量。
-// 输入：[1,8,6,2,5,4,8,3,7]
-// 输出：49 
-int maxArea(vector<int>& height) {
-    int i = 0;
-    int j = height.size()-1;
-    int res = 0;
-    while (i < j) {
-        if (height[i] < height[j]) {
-            res = max(res, height[i++]*(j-i));
-        } else {
-            res = max(res, height[j--]*(j-i));
-        }
-    }
-    return res;
-}
 // 228. 汇总区间
 // 给定一个  无重复元素 的 有序 整数数组 nums 。
 // 返回 恰好覆盖数组中所有数字 的 最小有序 区间范围列表 。也就是说，nums 的每个元素都恰好被某个区间范围所覆盖，并且不存在属于某个范围但不属于 nums 的数字 x 。
@@ -275,26 +315,7 @@ vector<string> summaryRanges(vector<int>& nums) {
     }
     return res;
 }
-vector<string> summaryRangesII(vector<int>& nums) {
-    vector<string> res;
-    int start = 0;
-    int end = 0;
-    while(end < nums.size()){
-        while (end < nums.size()-1 && nums[end]+1 == nums[end+1]){
-            ++end;
-        }   
-        string temp = to_string(nums[start]);
-        if(start != end){
-            temp += "->"+to_string(nums[end]);
-        }
-        res.push_back(temp);
-        ++end;
-        start = end;
-        
-    }
-    return res;
-}
-// 56. 合并区间
+//*** 56. 合并区间
 // 以数组 intervals 表示若干个区间的集合，其中单个区间为 intervals[i] = [starti, endi] 。请你合并所有重叠的区间，并返回 一个不重叠的区间数组，该数组需恰好覆盖输入中的所有区间 。
 // 输入：intervals = [[1,3],[2,6],[8,10],[15,18]]
 // 输出：[[1,6],[8,10],[15,18]]
@@ -378,7 +399,8 @@ int lengthOfLongestSubstring(string s) {
 // 30. 串联所有单词的子串
 // 给定一个字符串 s 和一个字符串数组 words。 words 中所有字符串 长度相同。
 //  s 中的 串联子串 是指一个包含  words 中所有字符串以任意顺序排列连接起来的子串。
-// 例如，如果 words = ["ab","cd","ef"]， 那么 "abcdef"， "abefcd"，"cdabef"， "cdefab"，"efabcd"， 和 "efcdab" 都是串联子串。 "acdbef" 不是串联子串，因为他不是任何 words 排列的连接。
+// 例如，如果 words = ["ab","cd","ef"]， 那么 "abcdef"， "abefcd"，"cdabef"， "cdefab"，"efabcd"， 
+// 和 "efcdab" 都是串联子串。 "acdbef" 不是串联子串，因为他不是任何 words 排列的连接。
 // 返回所有串联子串在 s 中的开始索引。你可以以 任意顺序 返回答案。
 // 输入：s = "barfoothefoobarman", words = ["foo","bar"]
 // 输出：[0,9]

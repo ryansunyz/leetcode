@@ -159,25 +159,25 @@ vector<string> letterCombinations(string digits) {
 // 输出：["((()))","(()())","(())()","()(())","()()()"]
 // 输入：n = 1
 // 输出：["()"]
-vector<string> ans;
-string temp;
+vector<string> result;
+string path;
 void backtracking(int n, int left, int right) {
-    if (temp.size() == n*2) {
-        ans.push_back(temp);
+    if (path.size() == n*2) {
+        result.push_back(path);
         return;
     }
     if (left < n) {
-        temp.push_back('(');
+        path.push_back('(');
         backtracking(n, left+1, right);
-        temp.pop_back();
+        path.pop_back();
     }
     if (left > right) {
-        temp.push_back(')');
+        path.push_back(')');
         backtracking(n, left, right+1);
-        temp.pop_back();
+        path.pop_back();
     }
 }
 vector<string> generateParenthesis(int n) {
     backtracking(n, 0, 0);
-    return ans;
+    return result;
 }
