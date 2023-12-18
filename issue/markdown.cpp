@@ -455,7 +455,7 @@ string minWindow(string s, string t) {
 // ********************************************************
 //                         矩阵
 // ********************************************************
-// 36. 有效的数独
+//*** 36. 有效的数独
 // 请你判断一个 9 x 9 的数独是否有效。只需要 根据以下规则 ，验证已经填入的数字是否有效即可。
 // 数字 1-9 在每一行只能出现一次。
 // 数字 1-9 在每一列只能出现一次。
@@ -545,20 +545,7 @@ bool canConstruct(string ransomNote, string magazine) {
     }
     return true;
 }
-        // if (ransomNote.size() > magazine.size()) {
-        //     return false;
-        // }
-        // vector<int> cnt(26);
-        // for (auto & c : magazine) {
-        //     cnt[c - 'a']++;
-        // }
-        // for (auto & c : ransomNote) {
-        //     cnt[c - 'a']--;
-        //     if (cnt[c - 'a'] < 0) {
-        //         return false;
-        //     }
-        // }
-        // return true;
+
 // 205. 同构字符串
 // 给定两个字符串 s 和 t ，判断它们是否是同构的。
 // 如果 s 中的字符可以按某种映射关系替换得到 t ，那么这两个字符串是同构的。
@@ -832,40 +819,6 @@ bool isValid(string s) {
 // 输入：path = "/home//foo/"
 // 输出："/home/foo"
 // 解释：在规范路径中，多个连续斜杠需要用一个斜杠替换。
-string simplifyPath(string path) {
-    // vector<string> stk;   //vector模拟栈
-    // int n = path.size(), i = 0;
-    // string str = "";
-    // while (i < n) {
-    //     //遇到 / 一直往后，直到非斜杠
-    //     if (path[i] == '/')
-    //         ++i;
-    //     else {
-    //         //将两斜杠间的字符组成串，再进行判断
-    //         for (; i < n && path[i] != '/'; ++i)
-    //             str += path[i];
-    //         if (str == ".") ;  //当前目录，什么都不做
-    //         else if (str == "..") {
-    //             //返回上级目录（弹出栈顶元素）
-    //             if (!stk.empty())
-    //                 stk.pop_back();
-    //         }
-    //         //其余情况都认为是文件或目录名
-    //         else 
-    //             stk.push_back(str);
-    //         //str置空，用于存储下一个文件名
-    //         str = "";
-    //     }  
-    // }
-    // if (stk.empty()) //栈为空表示仍在根目录
-    //     return "/";
-    // string ans = "";
-    // for (auto& s : stk)
-    //     //注意补'/'
-    //     ans += ('/' + s);
-    // return ans;
-}
-
 string simplifyPath2(string path) {
     vector<string> temp;
     int len = path.size();
