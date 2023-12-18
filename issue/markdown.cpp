@@ -668,7 +668,7 @@ vector<vector<string> > groupAnagrams(vector<string>& strs) {
     }
     return ans;
 }
-// 202. 快乐数
+//**** 202. 快乐数
 // 编写一个算法来判断一个数 n 是不是快乐数。
 // 「快乐数」 定义为：对于一个正整数，每一次将该数替换为它每个位置上的数字的平方和。
 // 然后重复这个过程直到这个数变为 1，也可能是 无限循环 但始终变不到 1。
@@ -692,18 +692,18 @@ int getSum(int n){
 }
     /* 判断一个数是不是快乐数 */
 bool isHappy(int n) {
-    // int sum = 0;
-    // unordered_set<int> set;
-    // while(1){
-    //     sum = getSum(n);
-    //     /* 判断和是不是1 */
-    //     if(sum == 1)  return true;
-    //     /* 如果这个sum曾经出现过，说明已经陷入了无限循环了，立刻return false */
-    //     if(set.find(sum) != set.end()) return false;
-    //     else set.insert(sum);
-    //     /* 更新n */
-    //     n = sum;
-    // }
+    int sum = 0;
+    unordered_set<int> set;
+    while(1){
+        sum = getSum(n);
+        /* 判断和是不是1 */
+        if(sum == 1)  return true;
+        /* 如果这个sum曾经出现过，说明已经陷入了无限循环了，立刻return false */
+        if(set.find(sum) != set.end()) return false;
+        else set.insert(sum);
+        /* 更新n */
+        n = sum;
+    }
 }
 
 // 219. 存在重复元素 II
