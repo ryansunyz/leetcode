@@ -292,8 +292,6 @@ vector<int> twoSum(vector<int>& numbers, int target) {
 // [2,4] --> "2->4"
 // [6,6] --> "6"
 // [8,9] --> "8->9"
-// vector<string> summaryRanges(vector<int>& nums) {
-// }
 
 vector<string> summaryRanges(vector<int>& nums) {
     vector<string> res;
@@ -711,7 +709,7 @@ bool isHappy(int n) {
 // 满足 nums[i] == nums[j] 且 abs(i - j) <= k 。如果存在，返回 true ；否则，返回 false 
 // 输入：nums = [1,0,1,1], k = 1
 // 输出：true
-// 输入：nums = [1,2,3,1,2,3], k = 2
+// 输入：nums = [1,2,3,1,2,3], k = 2 
 // 输出：false
 bool containsNearbyDuplicate(vector<int>& nums, int k) {
     int n = nums.size();
@@ -735,22 +733,6 @@ bool containsNearbyDuplicate(vector<int>& nums, int k) {
 // 输入：nums = [0,3,7,2,5,8,4,6,0,1]
 // 输出：9
 int longestConsecutive(vector<int>& nums) {
-    // 错误解法
-    // *****
-    // sort(nums.begin(), nums.end());
-    // nums.erase(unique(nums.begin(), nums.end()), nums.end());
-    // int start = 0;
-    // int end = nums.size() - 1;
-    // while (start < end) {
-    //     if (nums[end] - nums[start] == end - start) {
-    //         return end - start + 1;
-    //     } else if (nums[end] - nums[start] > end - start) {
-    //         --end;
-    //     } else {
-    //         ++start;
-    //     }
-    // }
-    // return end-start+1;
     sort(nums.begin(),nums.end());
     nums.erase(unique(nums.begin(),nums.end()),nums.end());
     if(nums.size()==0) return 0;
@@ -766,6 +748,25 @@ int longestConsecutive(vector<int>& nums) {
         }
     }
     return ans;
+}
+int longestConsecutive(vector<int>& nums) {
+    unordered_set<int> num_set;
+    for (auto& num : nums) {
+        num_set.insert(num);
+    }
+    int longeststreak = 0;
+    for (const int& num : num_set) {
+        if (!num_set.count(num - 1)) {
+            int currentnum = num;
+         int currentstreak = 1;
+            while (num_set.count(currentnum + 1)) {
+                currentnum += 1;
+                currentstreak += 1;
+            }
+            longeststreak = max(longeststreak, currentstreak);
+        }
+    }
+    return longeststreak;
 }
 
 // ********************************************************
@@ -920,79 +921,21 @@ bool hasCycle(ListNode *head) {
 // 输出：[7,0,8]
 // 解释：342 + 465 = 807.
 ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-    // ListNode *head = nullptr, *tail = nullptr;
-    // int carry = 0;
-    // while (l1 || l2) {
-    //     int n1 = l1 ? l1->val: 0;
-    //     int n2 = l2 ? l2->val: 0;
-    //     int sum = n1 + n2 + carry;
-    //     if (!head) {
-    //         head = tail = new ListNode(sum % 10);
-    //     } else {
-    //         tail->next = new ListNode(sum % 10);
-    //         tail = tail->next;
-    //     }
-    //     carry = sum / 10;
-    //     if (l1) {
-    //         l1 = l1->next;
-    //     }
-    //     if (l2) {
-    //         l2 = l2->next;
-    //     }
-    // }
-    // if (carry > 0) {
-    //     tail->next = new ListNode(carry);
-    // }
-    // return head;
-}
-ListNode* addTwoNumbers_2(ListNode* l1, ListNode* l2) {
-    // int len1=1;//记录l1的长度
-    // int len2=1;//记录l2的长度
-    // ListNode* p=l1;
-    // ListNode* q=l2;
-    // while (p->next != NULL) {
-    //     //获取l1的长度
-    //     len1++;
-    //     p=p->next;
-    // }
-    // while (q->next!=NULL) {
-    //     //获取l2的长度
-    //     len2++;
-    //     q=q->next;
-    // }
-    // if (len1>len2) {
-    //     //l1较长，在l2末尾补零
-    //     for(int i=1; i<=len1-len2; i++) {
-    //         q->next = new ListNode(0);
-    //         q = q->next;
-    //     }
-    // } else {
-    //     //l2较长，在l1末尾补零
-    //     for (int i=1; i<=len2-len1; i++) {
-    //         p->next = new ListNode(0);
-    //         p=p->next;
-    //     }
-    // }
-    // p=l1;
-    // q=l2;
-    // bool count=false;//记录进位
-    // ListNode* l3 = new ListNode(-1);//存放结果的链表
-    // ListNode* w = l3;//l3的移动指针
-    // int i = 0;//记录相加结果
-    // while(p != NULL && q != NULL) {
-    //     i = count + p->val + q->val;
-    //     w->next=new ListNode(i%10);
-    //     count=i>=10?true:false;
-    //     w=w->next;
-    //     p=p->next;
-    //     q=q->next;
-    // }
-    // if(count)//若最后还有进位
-    // {
-    //     w->next=new ListNode(1);
-    //     w=w->next;
-    // }
-    // return l3->next;
+    ListNode* dummy = new ListNode(0);
+    ListNode* cur = dummy;
+    int carry = 0;
+    while (l1 || l2 || carry) {
+        carry = l1->val + l2->val + carry;
+        cur->next = new ListNode(carry % 10);
+        if (l1) {
+            l1 = l1->next;
+        }
+        if (l2) {
+            l2 = l2->next;
+        }
+        carry /= 10;
+    }
+    return dummy->next;
 }
 // 21. 合并两个有序链表 //
 // 将两个升序链表合并为一个新的 升序 链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。 
@@ -1196,8 +1139,40 @@ public:
 // 给你一个链表，删除链表的倒数第 n 个结点，并且返回链表的头结点。
 // 输入：head = [1,2,3,4,5], n = 2
 // 输出：[1,2,3,5]
+int getlength(ListNode* head) {
+    int length = 0;
+    while (head) {
+        length++;
+        head = head->next;
+    }
+}
 ListNode* removeNthFromEnd(ListNode* head, int n) {
-
+    ListNode* dummy = new ListNode(0, head);
+    int length = getlength(head);
+    ListNode* cur = dummy;
+    for (int i = 0; i < length-n; ++i) {
+        cur = cur->next;
+    }
+    cur->next = cur->next->next;
+    return dummy->next;
+}
+// 方法二 栈
+ListNode* removeNthFromEnd2(ListNode* head, int n) {
+    ListNode* dummy = new ListNode(0, head);
+    stack<ListNode*> st;
+    ListNode* cur = dummy;
+    while (cur) {
+        st.push(cur);
+        cur = cur->next;
+    }
+    int i = 0;
+    while (i < n) {
+        st.pop();
+        i++;
+    }
+    ListNode* node = st.top();
+    node->next = node->next->next;
+    return dummy->next;
 }
 
 // ********************************************************
@@ -1240,7 +1215,7 @@ int maxDepth_2(TreeNode* root) {
     }
     return depth;
 }
-// 100. 相同的树
+//* 100. 相同的树
 // 给你两棵二叉树的根节点 p 和 q ，编写一个函数来检验这两棵树是否相同。
 // 如果两个树在结构上相同，并且节点具有相同的值，则认为它们是相同的。
 // 解题思路
@@ -1257,7 +1232,7 @@ bool isSameTree(TreeNode* p, TreeNode* q) {
     }
     return isSameTree(p->left, q->left) && isSameTree(p->right, q->right);
 }
-// 98. 验证二叉搜索树
+/// 98. 验证二叉搜索树
 // 给你一个二叉树的根节点 root ，判断其是否是一个有效的二叉搜索树。
 // 有效 二叉搜索树定义如下：
 // 节点的左子树只包含 小于 当前节点的数。
